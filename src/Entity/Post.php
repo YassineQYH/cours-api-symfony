@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -15,28 +16,33 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("post:read")
      */
-    private $content;
+    private $content; 
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
-    private $createdAt;
+    private $createdAt; // Si je ne veux pas que les gens connaissent les dates de créations des articles il me suffit de ne pas mettre @Groups("post:read")
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
+     * @Groups("post:read")
      */
-    private $comments;
+    private $comments;  // Si je fais @Groups("post:read") ici je dois aussi aller le mettre dans les entité de comment sauf pour post dans comment sinon ça va faire une boucle infini
 
     public function __construct()
     {
